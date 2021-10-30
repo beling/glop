@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+
+<h2><img style="width: 64px; height: 64px;" src=":/images/help64.png"> Glop Manual - Version 2.2</h2>
+
+<br>
+
+<hr style="width: 100%; height: 2px;">
+<h3>Contents</h3>
+
+First of all, a description of the main features of Glop :
+
+<ul>
+  <li><A href="#Interface">Interface</A></li>
+  <li><A href="#Computation">Computation</A></li>
+  <li><A href="#Traversal">Tree traversal</A></li>
+  <li><A href="#Manual">Manual interaction in real-time: zapping</A></li>
+  <li><A href="#Databases">Databases</A></li>
+  <li><A href="#Check">Check computation</A></li>
+  <li><A href="#Children">Children Tab</A></li>
+</ul>  
+
+Then, a description of the different kind of computation that are available :
+
+<ul>
+  <li><A href="#WinLoss">"WinLoss" Tab</A></li>
+  <li><A href="#Nimber">"Nimber" Tab</A></li>
+  <li><A href="#FullTree">"FullTree" Tab</A></li>
+  <li><A href="#RctMisere">"Rct Misere" Tab</A></li>
+  <li><A href="#Score">"Score" Tab</A></li>
+</ul>
+
+And some details about the different games, in particular the available parameters and the string representation of the positions :
+
+<ul>
+  <li><A href="#Sprouts">Sprouts parameters</A></li>
+  <li><A href="#SproutsRep">Representation of Sprouts positions</A></li>
+  <li><A href="#Cram">Cram parameters</A></li>
+  <li><A href="#Dots">Dots-and-Boxes parameters</A></li>
+</ul>
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Interface">Interface</A></h3>
+
+The interface of Glop is mainly constituted of the following components:
+
+<ul>
+  <li>Node Tabs: a list of tabs at the top of the interface with the possible kind of computations (normal, misere, score...) </li>
+  <li>"Parameters" Tab: choose the game and the tree traversal, then set the parameters</li>
+  <li>"Computing branch" Tab: display the point of the game tree currently computed</li>
+  <li>"Search tree" Tab: display more information about the game tree currently searched, like the complete list of children</li>
+  <li>"Children" Tab: compute the list of children of a position, and display the known data about each child</li>
+  <li>"Information" Tab: information about Glop</li>
+</ul>
+
+The buttons inside the tabs for the different kind of computations represent the databases of positions. It indicates the number of positions stored in the base. You can click on any of these buttons (except during a computation) to save a given base, load a base previously saved, or purge the base.
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Computation">Computation</A></h3>
+
+First, you need to choose what you want to compute, and how: 
+
+<ul>
+  <li>The game: Sprouts, Cram or Dots-and-Boxes and the parameters of the game (mainly, the start position).</li>
+  <li>The kind of computation: normal outcome, misere outcome, nimber, canonical tree, reduced canonical tree...</li>
+  <li>The tree traversal: Alpha-Beta or Proof-number search algorithm</li>  
+</ul>
+
+Then, you can click on the Start/Stop/Pause buttons to perform the following actions:
+
+<ul>
+  <li>Start button: start the computation. </li>
+  <li>Stop button: stop the computation. A confirmation dialog appears.</li>
+  <li>Pause button: freeze the computation at its current point until you click on Restart.</li>
+</ul>
+
+<p>
+The point reached by the computation is regularly refreshed in the "computing branch" tab, as a vertical list of levels. What we call a "level" is just the list of children of a given position. When you try to compute the state of a position (win/loss, nimber...), you basically need to compute the state of its children. For this reason, all the computations are recursive on the "children". At a given time, the computation can be represented as the list of each child currently computed in a given level. Since it is a branch in the game tree, we call this list the "computing branch" and that's exactly what we display in the interface. Each position displayed in this computing branch is a child of the position on the above line.
+</p>
+
+<p>
+In order to show a bigger part of the computing branch, you can use F10 and F11 on the keyboard. F11 key enables/disables the full screen mode, and F10 key shows/hides the upper part of Glop interface, which contains the parameters of the chosen node.
+</p>
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Traversal">Tree traversal</A></h3>
+
+<p>
+The tree traversal refers to the way the search-tree is explored during the computation. The most common tree traversal is the well-known alpha-beta algorithm. This was the only tree traversal available in Glop up to the version 2.1. Alpha-beta consists essentially in developing the list of children of the current node, ordering them with some heuristics specific to the chosen game, and then compute recursively the children in this order.
+</p>
+
+<p>
+Since version 2.2, proof-number-search is available. The version implemented in Glop uses two parameters, p and d, which are known as proof-number and disproof-number. The next node to be developed is chosen by following the path of minimum d values from the root. Proof-number search is a best-first algorithm, whereas the alapha-beta is a depth-first algorithm. Whether proof-number search is more efficient than alpha-beta or not depends on the considered game and on the starting position.
+</p>
+
+<p>
+Note that the <A href="#Check">check computation</A> ignores the selected tree traversal, and always performs an alpha-beta algorithm. In particular, the alpha-beta check ensures that no programming error in the proof-number search algorithm can affect the results.
+</p>
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Manual">Manual interaction in real-time: zapping</A></h3>
+
+To compute the outcome (win or loss) of a position, we need to find one losing child (and the position will be winning), or to prove that all children are winning (and the position will be losing).
+
+<br>
+<br>
+
+As only one losing child is needed to show that a position is winning, there are several ways to complete a computation. Some of them are much easier than others, and the fastest way to complete a computation is to always choose first the easiest losing child. Glop already implement the best default choices that we have found so far for the different games, but nevertheless manual interaction in real-time, particularly at the top of the game tree can sometimes greatly accelerate the computation (for instance, it's easy to be 50 times faster on the computation of the 12-spot Sprouts game!).
+
+<br>
+<br>
+
+Here are the features of the program that help you to choose the right children:
+
+<ul>
+  <li>Choose a child: you can change the child currently computed at a given level just by clicking on a cell in this level. Click on the first-column cell ("Index" column) to reach the next child, and on the second-column cell ("Alive" column) to reach the previous one.</li>
+  <li>Display all children: click on the "Position" cell to display a list of all the children of that level. Then you can choose a given child by clicking on its "storeId".</li>
+</ul>
+
+Notice that positions are displayed on the right side of the interface, so you can choose the positions that seem to be easier to compute (like those that tend to separate into independent components).
+
+<br>
+<br>
+
+We also use a system of colors to guide user choices in the interface. 
+<ul>
+  <li>Green color means that a given level has between 5 and 10 remaining children in an unknown state.</li>
+  <li>Yellow means 3 or 4 children left.</li>
+  <li>Orange means 2 children left.</li>
+  <li>Red means only 1 child left.</li>
+</ul>
+When you see a red level, it indicates that the position on the above level is probably a losing one.
+
+<br>
+<br>
+
+The ideal situation is a succession of the following kind: any color/no color/any color/no color...
+
+<br>
+<br>
+
+<img src=":/images/ideal.png">
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Databases">Databases</A></h3>
+
+<p>
+During a computation, the program stores the positions and their associated result in a database. There are several databases, for the different kind of data. The number of stored positions is displayed on a button that represent the database.
+</p>
+
+<p>
+You can click on the button representing a database to save it in a file. It is possible to close Glop and reload the database later, for example to resume an unfinished computation. When you do so, be careful to choose the same parameters in the parameters tab. You can also load successively several databases to merge them and the program will check that the results are consistent (an error message is displayed if any position has a different result in two databases).
+</p>
+
+<p>
+The default extension for the files associated with Glop is ".spr", in reference to the game of Sprouts, the first game implemented in Glop.
+</p>
+
+<p>
+From the menu of the database button, it is also possible to display the database. The Index value can be used to specify directly from which index of the database the positions should be displayed. You can scroll from the current index by using the up and down arrow keys of the keyboard. The Random button selects an index randomly.
+</p>
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Check">Check computation</A></h3>
+
+If a computation has finished, it is possible to check the result with a second computation. If you switch on the option "activate check" in the parameters of a computation, Glop will use the already computed database to guide itself in the game tree and compute again the same result, i.e "check" it.<br><br>
+
+The algorithm tries to minimize the number of positions needed to check this result, and stores these positions in the check database. So, using "check computation", you can reduce the number of positions. This is useful to save memory, and also if you want to do hand-checked proofs for little positions.<br><br>
+
+Some winning positions of the solution tree have sometimes multiple losing children. Some of these children are necessary because they are used elsewhere in the tree, but some of them can be useless. In order to prune the useless positions as much as possible, it is possible to perform a check computation with a random order on the positions. In the interface, you can set "Random check cycles" to a given value "n", and Glop will perform "n" check computations with a random order.<br><br>
+
+The result of a check computation is stored in a database different than for the main computation. The base of checked positions can be saved and loaded from a file, like any other base, by clicking on the button displaying the number of positions.<br><br>
+
+If the check computation fails, for example if Glop has been forced to deduce reults that were not included in the previous database, it will be indicated with a "N" (meaning "new" results) in the button displaying the check database. 
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Children">Children Tab</A></h3>
+
+In the "Children" tab, you can compute the children of a given position and display the known data about the children.
+Make sure to use a correct syntax and to choose the right game in the parameters tab. Glop will always assume that you are computing the children of a position for the game currently selected in the parameters tab. For each child, the known data is printed at the end of the line.
+
+<br>
+<br>
+
+This tab can be used to display the winning strategy of a position (after it has been computed). For example, suppose that you want to play a 12-spot game perfectly. First of all, compute the win/loss of the 12-spot game (with the "Nimber" tab), or load a database already computed. Since the 12-spot game is losing, you let your opponent starts.<br><br>
+
+You enter the starting position, i.e 0*12, in the Children Tab, and you click on "compute children". No special data is displayed about the children, which means that they are all winning. Your opponent plays his first move, for example to the position 0*8.AB|0*3.AB. You just double-click on this child. It becomes the new parent position and its children are displayed. And you will find, displayed in red, that the nimber of 0*4.A|0*4.A+0*3 is 0, i.e. it is losing. So you play this (in order to place your opponent in a losing situation) and just double-click on this child. Then, if your opponent plays 0*4.A|0*4.A+0*2.AB|AB, you double-click on that position, and you will find that the nimber of 0*4.A|0*4.A+0.1a2a is 0, etc...<br><br>
+
+Since the losing child is always displayed in red, it is fairly easy to play the perfect strategy: simply choose a child displayed in red. If there is no child in red, and it is your turn of play, it means that you are in trouble (i.e. you cannot win from the current position) or that the result is not available in the computed databases.
+
+<br><br>
+
+This children tab is just a very useful way to access to the content of the computed databases. You can use it for all the different kind of computations (nimber, misere outcome, reduced canonical trees ...)
+
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="WinLoss">"WinLoss" Tab</A></h3>
+
+In this tab, you can compute the outcome (win/loss) of a game, with a direct and simple algorithm, which doesn't take into account the possible existence of independent components. It is not the most efficient way to compute the outcome of a splittable game (like Sprouts, or Cram), but it can be used to check that the results obtained with this simple algorithm are consistent with the results obtained with more complicated methods.<br><br>
+
+It is possible to compute the normal outcome (i.e. when the player who cannot move loses) or the misere outcome (i.e. when the player who cannot move wins).
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Nimber">"Nimber" Tab</A></h3>
+
+In this tab, you can compute efficiently the outcome of a splittable impartial game (like Cram or Sprouts). The computation is much faster than with the "winloss" tab, because it uses the nimber theory to compute efficiently the positions that split into independent components. <br><br>
+
+It is possible to compute either the outcome (win/loss) or the nimber of a start position.<br><br>
+
+During the computation the positions are displayed as couples "nimber part - position part".
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="FullTree">"FullTree" Tab</A></h3>
+
+In this tab, you can compute the complete game tree of a given position. Two kind of game trees are available :
+
+<ul>
+  <li>Canonical tree (CT) : complete game tree pruned of the redundant branches</li>
+  <li>Reduced Canonical tree (RCT) : complete game tree pruned of the redundant branches and of the reversible moves.</li>
+</ul>
+
+The result of an RCT computation is stored in two databases : "Pos/Rct", which stores the corresponding Rct-identifier of each position in the game tree, and "Rct/children", which stores the content of the Rct, i.e for each Rct-identifier, the list of rct-identifiers of the children. To save the result of a Rct computation to the disk, you need to save these two databases in different files.<br><br>
+
+The reduced canonical tree can be used to perform computations of the misere outcome with the "Rct Misere tab".<br><br>
+ 
+The "Full Tree Info" option enables to compute detailed data about each position of the game tree. The result is stored in the "Pos/FTI" database and you can access to this data in the "Children Tab". Note that the "full tree info" consumes a lot of memory, and is not needed to perform "RctMisere" computations (see below). 
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="RctMisere">"Rct Misere" Tab</A></h3>
+
+In this "Rct Misere" tab, you can compute efficiently the outcome of a splittable impartial game in the misere version. This tab uses the theory of reduced canonical trees (RCT) in order to accelerate the computation. Usually, it is used in the following way :
+
+<ul>
+  <li>First, compute in the "FullTree" tab the RCT of some "well-chosen" position. (Full-tree info is not needed)</li>
+  <li>Then, compute in the "Rct Misere" tab the misere outcome of the position you are interested in.</li>
+</ul>
+
+For example, in the case of the Sprouts, we usually compute the RCT of the 6-spots start position, because it contains a lot of small positions that appear frequently in p-spots positions, with p>6. Of course, we compute the RCT of the 6-spots position only once and for all, save the "Pos/Rct" and "Rct/children" databases to the disk, and simply reload them when we perform a "Rctmisere" computation.
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Score">"Score" Tab</A></h3>
+
+This "Score" tab is available only for the game of Dots-and-Boxes. It can be used to compute whether the first player can reach, from a given position of Dots-and-Boxes, a given score, which is called the contract. The contract is like a bet made by the first player. If his scores is at least equals to the contract, he wins. Otherwise, he loses.
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Sprouts">Sprouts parameters</A></h3>
+
+It is possible to compute the outcome of a Sprouts position with p initial spots on any compact surface. The topology of the surface can be indicated with the "topology" parameter, which is the genus of the surface (in the classification of closed surfaces): 
+
+<ul>
+  <li>0 means the plane (or the sphere, it is equivalent) </li>
+  <li>1 means the torus</li>
+  <li>a positive number n means a torus with n holes</li>
+  <li>-1 means the projective plane</li>
+  <li>-2 means the Klein Bottle</li>
+  <li>a negative number n means a sum of n projective planes</li>
+</ul>
+
+You can choose to guide the computing with the extended conjecture. This extended conjecture states that a position keeps the same nimber if you add 6 unused points in a given region. This conjecture is false, since there are a lot of counter-examples, but fortunately it is true for 90% of the positions, and usually helps to guide the computing in the following way: when activated, we give priority to positions that seems to be losing under the extended conjecture.
+
+<br><br>
+
+It is also possible to compute arbitrary Sprouts positions, and the next section explains how Sprouts positions are represented in Glop. 
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="SproutsRep">Representation of Sprouts positions</A></h3>
+
+Is is possible to compute in Glop the outcome or the nimber of any Sprouts position. If you have only a figure of the position you want to compute, you need first to determine its string representation. We have simplified the representation rules in Glop 2.0, by avoiding some redundancy and allowing the use of compact notations for unused spots. The details are explained on the following example:
+
+<br>
+<br>
+
+<img src=":/images/a_game.png">
+<p>First of all, notice that this position determines 5 regions in the plane, one of them isn&rsquo;t bounded. The two regions on the left are isolated from the 3 others, so we&rsquo;ll divide this position into 2 separate components (called lands): the character to separate lands is +, so the representation will be something like: "land1+land2". The character to separate regions is |, so we&rsquo;ll have "R1|R2+R3|R4|R5".
+</p>
+
+<p>The gray vertices have no life left, so they won&rsquo;t be displayed in the representation. The green vertices have 3 lives left, and a vertex degree of 0: they&rsquo;ll be
+displayed as "0". The yellow vertices have two lives left, and a degree of 1: they&rsquo;ll be displayed as "1". There are two sorts of vertices with 1 life left (the
+red ones), those that are in two regions (upper-case letters), and those that are in only one region (lower-case letters).
+</p>
+
+<p>To write the representation of a region, we enumerate the boundaries. The character to separate boundaries is ".", and we must pay attention to orientation: in a given region, we turn counterclockwise around the outer boundary, and clockwise around the others. So, the representation will be: "1aa.AB|AB+0.aaABC|0.1ab1bcDca.ACB|D"
+</p>
+
+<p>It is impossible to play in the region "D", so we delete this region, and then we replace the letter "D" - that appears only once in the representation - with the generic number "2". When a lower case vertex occurs twice in a row, as in "1aa", we also replace these two letters with "2". The representation we give to the program is:
+"12.AB|AB+0.2ABC|0.1ab1bc2ca.ACB".
+</p>
+
+<br>
+<br>
+
+<img src=":/images/example.png">
+
+<p>When inside a region, there are 3 lives or less, it is useless to separate boundaries; so, we can delete any "." in the representation of this region. Instead of "2.AB|AB", an equivalent representation of the above position is "2AB|AB".
+</p>
+
+<p>It is also possible to use a short notation for positions with a lot of zeros. You can write "0*x" with x equals to any number in place of "0.0...0" where "0" appears x times. For example, the initial starting positions with 5 spots can be represented equivalently by "0*5" or by "0.0.0.0.0". In the program interface, we use the short notation for positions with more than 2 zeros. Note that program internals mostly use the complete notation for sake of simplicity of the code.
+</p>
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Cram">Cram parameters</A></h3>
+
+<p>You can choose the size of the board that you want to compute. Since Cram boards are equivalent in regard to horizontal or vertical symmetries, the role of rows and columns can be reversed. For example a 4x7 board is equivalent to a 7x4 board.
+</p>
+
+<p>It is also possible to choose an arbitrary board, already cramed with some dominoes. Cram boards are represented by a sequence of "0" (empty cell) and "G" (gray cell, which means occupied cell) with a terminal "E" letter. We simply enumerate the state of the cells of the board, beginning by the first row, then the second row, and so on. The size of the board is stated by placing a "*" mark at the end of the first row.
+</p>
+
+<p>For example a 3x4 board, with only one domino placed horizontally at the end of the second row will be represented by: "000*0GG000000E". If there is also a vertical domino placed vertically at the bottom of the last column, it becomes: "000*0GG00G00GE".
+</p>
+
+<hr style="width: 100%; height: 2px;">
+<h3><A name="Dots">Dots-and-Boxes parameters</A></h3>
+
+<p>Like for the game of Cram, you can choose the size of the board. Please be careful because the size of Dots-and-Boxes positions is defined in terms of boxes or in terms of dots, depending on the people. In Glop, the size is given as a number of <b>boxes</b> on the rows and on the columns.  Since a box is a square of 2x2 dots, a board of NxM boxes is the same as a board of (N+1)x(M+1) dots.
+</p>
+
+<p>There are three different kind of start positions, called american, icelandic and swedish.</p>
+
+<p>Internally, Dots-and-Boxes is computed with the dual game of Strings-and-coins. The game of Strings-and-Coins is played with coins linked with strings. Players alternately cut a string, and they capture the coins that have been detached. After a capture, a player must cut another string, except if the game has ended. Arrows are strings attached initially to only one coin. They appear only at the limit of the board.
+</p>
+
+<p>The figure below shows a position of Dots-and-Boxes, the corresponding dual position of Strings-and-Coins, and finally the table of letters used in Glop to represent the board. The letters A, B, C represent coins, with respectively 2, 1 or no arrow attached to it. The letter L represent a string linking two coins, and the letter G represents a void space. Note that a board of NxM boxes is represented by a table of letters of size (2N-1)x(2M-1). Finally, we use the same conventions as in the game of Cram to indicate the length of a row with a "*" mark and the end of board with a terminal E, so the string representation of the board becomes CLBLB*LGLGGBGCLBLGLGLALCLBE.
+</p>
+
+<br>
+<br>
+<img src=":/images/dotsStrings.png">
+
+<p>The graphics displayed in the interface are also based on the game of Strings-and-coins. In the graphics, a little black square corresponds to a coin, a yellow one to a coin with one arrow, and a red one to a coin with two arrows. The strings between the coins are displayed most naturally as black straight edges.
+</p>
+
+</body>
+</html>

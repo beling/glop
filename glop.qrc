@@ -1,0 +1,16 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file>images/glop-24x32.png</file>
+	<file>images/glop-100x46.png</file>
+	<file>images/help64.png</file>
+	<file>images/licence64.png</file>
+	<file>images/about64.png</file>
+	<file>images/a_game.png</file>
+	<file>images/example.png</file>
+	<file>images/ideal.png</file>
+	<file>images/dotsStrings.png</file>	
+	<file>txt/about.html</file>
+	<file>txt/help.html</file>
+	<file>txt/gpl.html</file>
+</qresource>
+</RCC>

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# script to create a linux binary compressed with upx
+# Run this script from main directory (trunk or a tag of trunk) with a version number in argument
+# example : ./script/release_tux 1.0
+
+qmake
+make
+mv bin/glop bin/glop$1
+upx --best bin/glop$1

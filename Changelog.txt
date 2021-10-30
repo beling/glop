@@ -1,0 +1,24 @@
+Changelog of Glop, a program to compute combinatorial games
+-------------------------------------------------------------------------
+
+------------------- Version 2.2 -- 2011/10/21 ---------------------------
+* New game: Dots-and-Boxes
+* New tree traversal : Proof-Number Search
+* Graphic display of the board for board games
+* CT/RCT: correction of the displayed numbers (no unused nim-columns)
+* Cram: better string representation and canonization
+* Children Tab: automatic initialization, data of the parent position
+
+------------------- Version 2.1 -- 2011/03/08 ---------------------------
+* Cram: some optimizations in the symmetries
+* Children Tab: corrections/enhancements
+
+------------------- Version 2.0 -- 2011/02/20 ---------------------------
+* Major release: there are too many changes to list them all
+* New game: Cram
+* Sprouts: compact surfaces, shorter string representation
+* Complete game tree: computation of the canonical tree (CT) and reduced canonical tree (RCT)
+* Misere games: computation of the outcome with RCT
+
+------------------- Version 1.0 -- 2007/04/07 --------------------------
+* first published version of glop with the game of Sprouts in normal version

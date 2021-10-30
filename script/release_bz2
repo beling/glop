@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# script to create a bz2 package with all the files under version control
+# Run this script from main directory (trunk or a tag of trunk) with a version number in argument
+# example : ./script/release_bz2 1.0
+
+#remove old files if existing
+if [ -f bin/listing.tmp ] ; then
+	rm bin/listing.tmp
+	echo Old bin/listing.tmp removed
+fi
+
+if [ -f bin/glop-$1.tar.bz2 ] ; then
+	rm bin/glop-$1.tar.bz2
+	echo Old bin/glop-$1.tar.bz2 removed
+fi
+
+#Current local directory
+CMPDIR=`pwd`
+CURDIR=`basename $CMPDIR`
+
+#Create a list of files under version control
+#note : "svn list -R" connects to the server and takes a long time
+echo Downloading the list of files under version control ...
+for FICH in `svn list -R` ; do
+	#Add only files (not directory) at the end of the list
+	if [ -f $FICH ] ; then
+		echo ../$CURDIR/$FICH >> bin/listing.tmp
+	fi
+done
+
+#Create package
+echo Creating bin/glop-$1.tar.bz2 package...
+tar cjf bin/glop-$1.tar.bz2 --files-from bin/listing.tmp --totals
+
+#Suppression du listing
+rm bin/listing.tmp
