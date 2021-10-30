@@ -4,10 +4,11 @@ INCLUDEPATH += .
 CONFIG += thread
 RESOURCES += glop.qrc
 QT += xml
+QT += widgets
 
 #choose a compilation mode in release, debug or profil
 #intermediate files .o or .moc will be stored in different directories
-CONFIG += release
+#CONFIG += release
 
 #compilation configuration
 #console is useful when testing, but shoud not be used for the final release

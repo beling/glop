@@ -21,6 +21,10 @@
 #include "widgetpopup.h"
 
 #include <QtGui>
+#include <QTextBrowser>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
 
 WidgetPopup::WidgetPopup( QWidget* parent, QString fileName, QString windowsTitle) : QDialog( parent) {
 	//-------------text display-----------------------------------
@@ -31,8 +35,8 @@ WidgetPopup::WidgetPopup( QWidget* parent, QString fileName, QString windowsTitl
 	textEditPopup->setMinimumHeight(450);
 	
 	//text parameters
-	textEditPopup->setReadOnly( TRUE );
-	textEditPopup->setOpenExternalLinks( TRUE );	//use external software to open web links
+	textEditPopup->setReadOnly( true );
+	textEditPopup->setOpenExternalLinks( true );	//use external software to open web links
 	
 	if(!fileName.isEmpty()) {
 		QFile htmlFile(fileName);

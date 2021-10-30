@@ -23,6 +23,7 @@
 #include "nodestore.h"
 
 #include <time.h>
+#include <QElapsedTimer>
 
 BaseNode ComputationThread::BaseNodeIni;
 
@@ -60,6 +61,8 @@ void ComputationThread::startOneComputation() {
 	coreIni.initRootNode(); //initialize the parameters of the first BaseNode
 	BaseNodeIni = coreIni;
 	
+    QElapsedTimer timer;
+    timer.start();
 	if(recursiveStructure) {
 		do {
 			recursiveLoop(BaseNodeIni);
@@ -69,6 +72,7 @@ void ComputationThread::startOneComputation() {
 		NodeStore::mainLoop();
 		NodeStore::clearNodes(); //clear the nodes at the end of the computation
 	}
+    this->calculation_time = timer.elapsed();
 	
 	//Save the result in resultString
 	compthread_mutex.lock();

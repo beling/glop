@@ -38,6 +38,13 @@
 #include "../baseclass/interfacewidget.h"
 
 #include <QtGui>
+#include <QVBoxLayout>
+#include <QGridLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QComboBox>
+#include <QTableWidget>
+#include <QMessageBox>
 
 QString GlopWidget::glopVersionNumber("2.2");
 
@@ -440,7 +447,7 @@ void GlopWidget::startComputation() {
 	Trace::set_stop_value(false);
 	compThread->computationRunning=true;
 	computeRunning=true;
-	emit isComputing(TRUE);
+	emit isComputing(true);
 	
 	//call ComputationThread::run() as a separate thread with the special start() function
 	compThread->start(QThread::NormalPriority);
@@ -514,8 +521,8 @@ void GlopWidget::wait_result() {
 		return;
 	}
 	
-	emit isComputing(FALSE); //signals computation ended
-	emit isChecking(FALSE);
+	emit isComputing(false); //signals computation ended
+	emit isChecking(false);
 	computeRunning=false;
 	
 	//at the end of the computation, shows back the upper part of the interface
@@ -543,6 +550,7 @@ void GlopWidget::wait_result() {
 		message += QString("Game     : %1\n").arg(box_game_choice->currentText());
 		message += QString("Position : %1\n").arg(positionName);
 		message += QString("Result    : %1\n").arg(BaseNode::computationResult.c_str());
+        message += QString("Time [ms] : %1\n").arg(compThread->calculation_time);
 	}
 	
 	QMessageBox::information (this, message_title, message, QMessageBox::Ok);

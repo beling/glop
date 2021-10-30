@@ -45,6 +45,8 @@ class ComputationThread : public QThread {
 	bool recursiveStructure;
 	void startOneComputation();				//function to start one computation
 	void recursiveLoop(BaseNode& node);		//simple recursive algorithm	
+
+    qint64 calculation_time = 0;
 };
 
 #endif

@@ -20,6 +20,7 @@
 
 #include "error.h"
 #include <QtGui>
+#include <QMessageBox>
 
 //create static variables (global to all threads)
 	QMutex Error::message_lock;

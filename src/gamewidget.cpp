@@ -23,6 +23,12 @@
 #include "baseclass/basegame.h"
 #include "computation/database.h"
 #include <QtGui>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QTableWidget>
+#include <QHeaderView>
 
 GameWidget::GameWidget( QWidget* parent) : QWidget( parent) {
 	QGridLayout *grid = new QGridLayout( this );

@@ -30,6 +30,12 @@
 #include "../mainwidget/repofile.h"
 
 #include <QtGui>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QMenu>
+#include <QAction>
 
 DataBaseButton::DataBaseButton( QWidget* parent, int buttonNumBase) : QWidget( parent) {
 	num_base = buttonNumBase;

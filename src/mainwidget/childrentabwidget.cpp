@@ -29,6 +29,12 @@
 #include "../baseclass/interfacewidget.h"
 
 #include <QtGui>
+#include <QGridLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QTableWidget>
+#include <QHeaderView>
+#include <QLineEdit>
 
 //------------------Children tab -------------------------------
 //TODO : some redundancy of the code between parent and children table
@@ -276,7 +282,7 @@ void GlopWidget::printChildren() {
 void GlopWidget::nextChildren(int row, int column) {
 	QTableWidgetItem * item = childrenDisplayTable->item(row, column);
 	if ( !item ) return;
-	childrenDisplayTable->setItemSelected(item, FALSE );
+	childrenDisplayTable->setItemSelected(item, false );
 	
 	QString positionPart = childrenDisplayTable->item(row, 1)->data(Qt::DisplayRole).toString();
 	

@@ -22,6 +22,13 @@
 #include "../computation/databasebutton.h"
 
 #include <QtGui>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QSpinBox>
+#include <QRadioButton>
+#include <QLineEdit>
+#include <QCheckBox>
 
 InterfaceWidget::InterfaceWidget( QWidget* parent) : QWidget( parent) {
 

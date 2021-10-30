@@ -24,6 +24,9 @@
 #include "../baseclass/basegame.h"
 
 #include <QtGui>
+#include <QTableWidget>
+#include <QGridLayout>
+#include <QLabel>
 
 QColor colorFrom(QString colorName) {
 	if(colorName == QString("transparent")){
@@ -219,7 +222,7 @@ void WidgetTrace::update_display() {
 void WidgetTrace::click_on_position(int row, int column) {
 	QTableWidgetItem * item = table->item(row, column);
 	if ( !item ) return;
-	table->setItemSelected(item, FALSE );
+	table->setItemSelected(item, false );
 	
 	//nothing to do if it is a click trying to change the first position
 	if(row==0 && column<3) return;
@@ -529,7 +532,7 @@ void WidgetChildren::updateTable(QTableWidget *tableW, list<NodeTrace> ntrace) {
 void WidgetChildren::click_on_children(int row, int column) {
 	QTableWidgetItem * item = childrenTable->item(row, column);
 	if ( !item ) return;
-	childrenTable->setItemSelected(item, FALSE );
+	childrenTable->setItemSelected(item, false );
 	
 	//no click on an already dead node
 	if( item->backgroundColor() == colorFrom(QString("gray")) ) return;
@@ -549,7 +552,7 @@ void WidgetChildren::click_on_children(int row, int column) {
 void WidgetChildren::click_on_parent(int row, int column) {
 	QTableWidgetItem * item = parentTable->item(row, column);
 	if ( !item ) return;
-	parentTable->setItemSelected(item, FALSE );
+	parentTable->setItemSelected(item, false );
 	int clickedId = parentTable->item(row, id_col)->data(Qt::DisplayRole).toInt();
 	
 	if (column==id_col) {
@@ -564,7 +567,7 @@ void WidgetChildren::click_on_parent(int row, int column) {
 void WidgetChildren::click_on_currentNode(int row, int column) {
 	QTableWidgetItem * item = currentNodeTable->item(row, column);
 	if ( !item ) return;
-	currentNodeTable->setItemSelected(item, FALSE );
+	currentNodeTable->setItemSelected(item, false );
 	
 	if (column==bcu_col) {
 		//click on the bcu, update the focus of the children table to the corresponding child
